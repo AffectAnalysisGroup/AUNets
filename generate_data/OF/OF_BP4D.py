@@ -1,4 +1,4 @@
-import os
+import os, pdb
 from string import Template
 import subprocess
 from shutil import copyfile
@@ -9,6 +9,7 @@ max_processes = 20
 
 
 def issueFlowCommandToPool(inputDir, outputDir):
+    # pdb.set_trace()
     actualCMD = Template('$bnPath --source $sDir --ziel $zDir ').substitute(
         bnPath=binaryPath, sDir=inputDir, zDir=outputDir)
     print('Issuing to pool', actualCMD)
@@ -61,7 +62,7 @@ def calculateOFBroxGPUAnSet(sourceDir, targetDir):
         f for f in os.listdir(targetDir)
         if os.path.isfile(os.path.join(targetDir, f))
     ])
-
+    #pdb.set_trace()
     if numFilesSource != numFilesTarget:
         print('numFilesSource', numFilesSource)
         print('numFilesTarget', numFilesTarget)
@@ -85,6 +86,7 @@ def calculateOFBroxGPUAnSet(sourceDir, targetDir):
 
 
 def handleTasksForPerson(aPersonDir, targetPerson):
+
     tasks = os.listdir(aPersonDir)
 
     for aTask in tasks:
@@ -96,15 +98,27 @@ def handleTasksForPerson(aPersonDir, targetPerson):
 
 def handleSubjects(rootPath, targetRoot):
     persons = os.listdir(rootPath)
+    #pdb.set_trace()
     # print('len(dirs)', len(persons))
     for aPerson in persons:
         # print('process person', aPerson)
-        handleTasksForPerson(
-            os.path.join(rootPath, aPerson), os.path.join(targetRoot, aPerson))
+        if os.path.isdir(os.path.join(rootPath, aPerson)):
+            handleTasksForPerson(
+                    os.path.join(rootPath, aPerson), os.path.join(targetRoot, aPerson))
+        else:
+            handleTasksForPerson(
+                    os.path.join(rootPath), os.path.join(targetRoot))
+        break
 
 
 # root of the directory hierachy
-sourcePath = '/home/afromero/datos/Databases/BP4D/Sequences'
-targetBase = '/home/afromero/datos/Databases/BP4D/Sequences_Flow_'
+#sourcePath = '/home/mab623/Downloads/GFT150_trimmed_Frames'
+#targetBase = '/home/mab623/Downloads/GFT150_trimmed_Flow'
+# sourcePath = '/home/afromero/datos/Databases/BP4D/Sequences'
+# targetBase = '/home/afromero/datos/Databases/BP4D/Sequences_Flow_'
+sourcePath = '/data/GFT150_trimmed_Frames'
+targetBase = '../../GFT150_OF'
 
-handleSubjects(sourcePath, targetBase)
+# handleSubjects(sourcePath, targetBase)
+handleTasksForPerson(sourcePath, targetBase)
+# calculateOFBroxGPUAnSet(sourcePath, targetBase)

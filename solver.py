@@ -1,3 +1,4 @@
+import pdb
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -17,6 +18,7 @@ warnings.filterwarnings('ignore')
 
 class Solver(object):
     def __init__(self, rgb_loader, config, of_loader=None):
+        pdb.set_trace()
         # Data loader
         self.rgb_loader = rgb_loader
 
@@ -69,6 +71,7 @@ class Solver(object):
         self.string_ = '00'
         self.TRAINED_FILE = os.path.join(self.model_save_path, 'TRAINED')
 
+        # pdb.set_trace()
         if self.pretrained_model and not self.SHOW_MODEL and not \
                 self.DEMO and self.mode == 'train':
 
@@ -93,7 +96,7 @@ class Solver(object):
                 self.build_tensorboard()
 
             # Start with trained model
-            if self.pretrained_model:
+            if self.pretrained_model!='False':
                 self.load_pretrained_model()
 
     # ====================================================================#
@@ -207,6 +210,7 @@ class Solver(object):
     # ====================================================================#
     # ====================================================================#
     def load_pretrained_model(self):
+        # pdb.set_trace()
         if self.pretrained_model == '':
             model = os.path.join(self.model_save_path,
                                  '{}.pth'.format(self.pretrained_model))
@@ -468,6 +472,7 @@ class Solver(object):
     # ====================================================================#
     # ====================================================================#
     def test(self):
+        print('Testing Model')
         from data_loader import get_loader
         if self.test_model == '':
             last_file = sorted(
@@ -560,6 +565,8 @@ class Solver(object):
                 break
 
     def DEMO(self):
+        # pdb.set_trace()
+        print('Testing on Demo input')
         self.C.eval()
         if self.OF:
             of_loader = iter(self.of_loader)
@@ -578,4 +585,5 @@ class Solver(object):
 
             output = F.sigmoid(out_temp)
             output = output.data.cpu().numpy().flatten().tolist()
-            print('{} | {} : {}'.format(string, file_[0], output[0]))
+            for fid, _file in enumerate(file_): 
+                   print('{} | {} : {}'.format(string, _file, output[fid]))

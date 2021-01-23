@@ -1,6 +1,6 @@
 from __future__ import division
 import numpy as np
-import torch
+import torch, pdb
 import torch.nn as nn
 from models.vgg_pytorch import vgg16 as model_vgg16
 
@@ -13,6 +13,7 @@ class Classifier(nn.Module):
                  test_model=''):
 
         super(Classifier, self).__init__()
+        pdb.set_trace()
         self.finetuning = pretrained
         self.OF_option = OF_option
         self.model_save_path = model_save_path

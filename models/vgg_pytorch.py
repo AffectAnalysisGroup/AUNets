@@ -2,7 +2,7 @@ import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 import math
 import torch
-import glob
+import glob, pdb
 """
 We provide pre-trained models, using the PyTorch :mod:`torch.utils.model_zoo`.
 These can be constructed by passing ``pretrained=True``:
@@ -383,6 +383,7 @@ def vgg16(pretrained='', OF_option='None', model_save_path='', **kwargs):
   """
     # ========================================================================#
     # ========================================================================#
+    # pdb.set_trace()
     if pretrained == 'ImageNet':
         model_zoo_ = model_zoo.load_url(model_urls['vgg16'])
         model_zoo_ = {k.encode("utf-8"): v for k, v in model_zoo_.iteritems()}
@@ -391,6 +392,7 @@ def vgg16(pretrained='', OF_option='None', model_save_path='', **kwargs):
         emo_file = sorted(
             glob.glob('/home/afromero/datos2/EmoNet/snapshot/models/\
                     EmotionNet/normal/fold_all/Imagenet/*.pth'))[-1]
+        pddb.set_trace()
         model_zoo_ = torch.load(emo_file)
         # print("Finetuning from: "+emo_file)
         model_zoo_ = {
@@ -424,6 +426,7 @@ def vgg16(pretrained='', OF_option='None', model_save_path='', **kwargs):
 
     # ========================================================================#
     elif OF_option == 'Vertical' or OF_option == 'Horizontal':
+        pdb.set_trace()
         model = VGG_IMAGE(make_layers(cfg['D']), **kwargs)
         if pretrained:
             model_zoo_['classifier.0.weight'] = model_zoo_[

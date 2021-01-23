@@ -69,6 +69,20 @@ Other Optical Flow stream architectures are found in `misc` folder
 
 Each model can be as heavy as 1GB for a total of 36GB per network variant (12 AUs - 3 folds). You can find them [here](http://157.253.243.8/weights/AUNets).  
 
+
+## FAQs from code and paper
+#How to run to test on images
+```
+If you are trying to run any setting with optical flow involved(Horizontal is the best performing model) generate the OF images using `OF_BP4D.py`. Makesure that the OF images folder has _OF suffix wrt the folder of original images. Then use the following commond to run on folder with images
+`./main.py -m pdb -- --AU=12 --fold=0 --GPU=0 --OF Horizontal --DEMO Demo --mode_data=normal --pretrained_model='./fold_0/OF_Horizontal/AU10.pth' --mode='test'`
+```
+
+# Does repeated runs on same data give different results?
+```No, this has been validated using the Demo data author provided. Make sure that you are using `pretrained_model` flag to load the model and not `test_model` flag.```
+
+# Is the output smoothed as mentioned in the paper?
+```No. The Demo option does not do that. Its not confirm if the given code does that in any of its settings. But the smoothing is performed on the binary decision after thresholding the model output so its largely irrelevant on other datasets than mentioned in the paper.```
+
 ## Results using [misc/VGG16-OF_Horizontal.png](misc/VGG16-OF_Horizontal.png)
 These results are reported using three-fold cross validation over the BP4D dataset. 
 

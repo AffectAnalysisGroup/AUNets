@@ -11,3 +11,8 @@ screen*
 show/
 *~
 *github*
+*whl
+*.log
+fold*
+GFT*/
+Sequences_Flow/

@@ -1,5 +1,5 @@
-#!/usr/local/bin/ipython
-import os
+#!/usr/bin/ipython
+import os, pdb
 import argparse
 from data_loader import get_loader
 from torch.backends import cudnn
@@ -15,7 +15,7 @@ def main(config):
         os.makedirs(config.log_path)
     if not os.path.exists(config.model_save_path):
         os.makedirs(config.model_save_path)
-
+    # pdb.set_trace()
     # Data loader
     of_loader = None
 
@@ -136,6 +136,7 @@ if __name__ == '__main__':
         type=str,
         default='emotionnet',
         choices=['emotionnet', 'imagenet', 'random'])
+    # pdb.set_trace()
     parser.add_argument('--pretrained_model', type=str, default='')
 
     # DEMO
@@ -150,6 +151,6 @@ if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = config.GPU
 
     config = cfg.update_config(config)
-
+    # pdb.set_trace()
     print(config)
     main(config)

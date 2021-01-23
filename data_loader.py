@@ -161,7 +161,7 @@ def get_loader(metadata_path,
     ])
 
     if demo:
-        batch_size = 1
+        batch_size = batch_size
         dataset = DEMO(demo, transform, OF=OF)
     else:
         dataset = BP4D(
