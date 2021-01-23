@@ -74,7 +74,15 @@ Each model can be as heavy as 1GB for a total of 36GB per network variant (12 AU
 #How to run to test on images
 ```
 If you are trying to run any setting with optical flow involved(Horizontal is the best performing model) generate the OF images using `OF_BP4D.py`. Makesure that the OF images folder has _OF suffix wrt the folder of original images. Then use the following commond to run on folder with images
-`./main.py -m pdb -- --AU=12 --fold=0 --GPU=0 --OF Horizontal --DEMO Demo --mode_data=normal --pretrained_model='./fold_0/OF_Horizontal/AU10.pth' --mode='test'`
+`./main.py -m pdb -- --AU=12 --fold=0 --GPU=0 --OF Horizontal --DEMO Demo --mode_data=normal --pretrained_model='./fold_0/OF_Horizontal/AU10.pth' --mode='test'`.
+
+To run multiple AUs use
+`for au in 01 02 04 06 07 10 12 14 15 17 23 24; do python main.py -- --GPU=2 --mode=test --AU=$au --pretrained_model snapshot_github/fold_0/OF_Horizontal/AU${au}.pth --OF=Horizontal --DEMO Demo; done
+Namespace(AU='01', DELETE=False, DEMO='Demo', GPU='2', HYDRA=False, OF=True, OF_option='Horizontal', SHOW_MODEL=False, TEST_PTH=False, TEST_TXT=False, batch_size=118, beta1=0.5, beta2=0.999, dataset='BP4D', finetuning='emotionnet', fold='0', image_size=224, log_path='./snapshot/logs/BP4D/normal/fold_0/AU01/OF_Horizontal/emotionnet', log_step=2000, lr=0.0001, metadata_path='./data/BP4D/normal/fold_0/AU01', mode='test', mode_data='normal', model_save_path='./snapshot/models/BP4D/normal/fold_0/AU01/OF_Horizontal/emotionnet', num_epochs=12, num_epochs_decay=13, num_workers=4, pretrained_model='snapshot_github/fold_0/OF_Horizontal/AU01.pth', results_path='./snapshot/results', stop_training=2, test_model='', use_tensorboard=False, xlsfile='./snapshot/results/normal/emotionnet.xlsx')`
+
+This is from author's [comment](https://github.com/BCV-Uniandes/AUNets/issues/12).
+
+If the code throws cannot find python error change the commented file in `main.py`.
 ```
 
 # Does repeated runs on same data give different results?

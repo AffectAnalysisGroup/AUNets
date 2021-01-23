@@ -4,6 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 import os
+import csv
 import time
 import datetime
 from torch.autograd import Variable
@@ -18,7 +19,7 @@ warnings.filterwarnings('ignore')
 
 class Solver(object):
     def __init__(self, rgb_loader, config, of_loader=None):
-        pdb.set_trace()
+        #pdb.set_trace()
         # Data loader
         self.rgb_loader = rgb_loader
 
@@ -565,7 +566,7 @@ class Solver(object):
                 break
 
     def DEMO(self):
-        # pdb.set_trace()
+        pdb.set_trace()
         print('Testing on Demo input')
         self.C.eval()
         if self.OF:
@@ -585,5 +586,9 @@ class Solver(object):
 
             output = F.sigmoid(out_temp)
             output = output.data.cpu().numpy().flatten().tolist()
-            for fid, _file in enumerate(file_): 
-                   print('{} | {} : {}'.format(string, _file, output[fid]))
+            with open(os.path.join(self.log_path, file_[0].split('/')[0])+'.csv', 'a') as fp:
+                    csvwriter = csv.writer(fp)
+                    for fid, _file in enumerate(file_): 
+                           print('{} | {} : {}'.format(string, _file, output[fid]))
+                           csvwriter.writerow([_file.split('/')[1].replace('.png', ''), output[fid]])
+

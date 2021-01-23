@@ -426,7 +426,7 @@ def vgg16(pretrained='', OF_option='None', model_save_path='', **kwargs):
 
     # ========================================================================#
     elif OF_option == 'Vertical' or OF_option == 'Horizontal':
-        pdb.set_trace()
+        #pdb.set_trace()
         model = VGG_IMAGE(make_layers(cfg['D']), **kwargs)
         if pretrained:
             model_zoo_['classifier.0.weight'] = model_zoo_[

@@ -13,7 +13,7 @@ class Classifier(nn.Module):
                  test_model=''):
 
         super(Classifier, self).__init__()
-        pdb.set_trace()
+        # pdb.set_trace()
         self.finetuning = pretrained
         self.OF_option = OF_option
         self.model_save_path = model_save_path
