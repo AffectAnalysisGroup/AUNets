@@ -73,12 +73,15 @@ Each model can be as heavy as 1GB for a total of 36GB per network variant (12 AU
 ## FAQs from code and paper
 #How to run to test on images
 ```
+
+First makesure that the images and their corresponding OF images are in the same level and folder names only differ by _OF suffix.
+
 If you are trying to run any setting with optical flow involved(Horizontal is the best performing model) generate the OF images using `OF_BP4D.py`. Makesure that the OF images folder has _OF suffix wrt the folder of original images. Then use the following commond to run on folder with images
 `./main.py -m pdb -- --AU=12 --fold=0 --GPU=0 --OF Horizontal --DEMO Demo --mode_data=normal --pretrained_model='./fold_0/OF_Horizontal/AU10.pth' --mode='test'`.
 
 To run multiple AUs use
-`for au in 01 02 04 06 07 10 12 14 15 17 23 24; do python main.py -- --GPU=2 --mode=test --AU=$au --pretrained_model snapshot_github/fold_0/OF_Horizontal/AU${au}.pth --OF=Horizontal --DEMO Demo; done
-Namespace(AU='01', DELETE=False, DEMO='Demo', GPU='2', HYDRA=False, OF=True, OF_option='Horizontal', SHOW_MODEL=False, TEST_PTH=False, TEST_TXT=False, batch_size=118, beta1=0.5, beta2=0.999, dataset='BP4D', finetuning='emotionnet', fold='0', image_size=224, log_path='./snapshot/logs/BP4D/normal/fold_0/AU01/OF_Horizontal/emotionnet', log_step=2000, lr=0.0001, metadata_path='./data/BP4D/normal/fold_0/AU01', mode='test', mode_data='normal', model_save_path='./snapshot/models/BP4D/normal/fold_0/AU01/OF_Horizontal/emotionnet', num_epochs=12, num_epochs_decay=13, num_workers=4, pretrained_model='snapshot_github/fold_0/OF_Horizontal/AU01.pth', results_path='./snapshot/results', stop_training=2, test_model='', use_tensorboard=False, xlsfile='./snapshot/results/normal/emotionnet.xlsx')`
+`for au in 01 02 04 06 07 10 12 14 15 17 23 24; do python main.py -- --GPU=2 --mode=test --AU=$au --pretrained_model snapshot_github/fold_0/OF_Horizontal/AU${au}.pth --OF=Horizontal --DEMO Demo; done`
+It will prompt full settings-`Namespace(AU='01', DELETE=False, DEMO='Demo', GPU='2', HYDRA=False, OF=True, OF_option='Horizontal', SHOW_MODEL=False, TEST_PTH=False, TEST_TXT=False, batch_size=118, beta1=0.5, beta2=0.999, dataset='BP4D', finetuning='emotionnet', fold='0', image_size=224, log_path='./snapshot/logs/BP4D/normal/fold_0/AU01/OF_Horizontal/emotionnet', log_step=2000, lr=0.0001, metadata_path='./data/BP4D/normal/fold_0/AU01', mode='test', mode_data='normal', model_save_path='./snapshot/models/BP4D/normal/fold_0/AU01/OF_Horizontal/emotionnet', num_epochs=12, num_epochs_decay=13, num_workers=4, pretrained_model='snapshot_github/fold_0/OF_Horizontal/AU01.pth', results_path='./snapshot/results', stop_training=2, test_model='', use_tensorboard=False, xlsfile='./snapshot/results/normal/emotionnet.xlsx')`
 
 This is from author's [comment](https://github.com/BCV-Uniandes/AUNets/issues/12).
 
@@ -86,10 +89,19 @@ If the code throws cannot find python error change the commented file in `main.p
 ```
 
 # Does repeated runs on same data give different results?
-```No, this has been validated using the Demo data author provided. Make sure that you are using `pretrained_model` flag to load the model and not `test_model` flag.```
+```
+No, this has been validated using the Demo data author provided. Make sure that you are using `pretrained_model` flag to load the model and not `test_model` flag.
+```
 
 # Is the output smoothed as mentioned in the paper?
-```No. The Demo option does not do that. Its not confirm if the given code does that in any of its settings. But the smoothing is performed on the binary decision after thresholding the model output so its largely irrelevant on other datasets than mentioned in the paper.```
+```
+No. The Demo option does not do that. Its not confirm if the given code does that in any of its settings. But the smoothing is performed on the binary decision after thresholding the model output so its largely irrelevant on other datasets than mentioned in the paper.
+```
+
+# How is the output saved?
+```
+The original code simply prints the output with some changes this code now saves the output as csv file per video. Each row in the file is the frame name and AU probability. The csv file is saved based on the value of the `log_path`.
+```
 
 ## Results using [misc/VGG16-OF_Horizontal.png](misc/VGG16-OF_Horizontal.png)
 These results are reported using three-fold cross validation over the BP4D dataset. 
