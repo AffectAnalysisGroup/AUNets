@@ -88,6 +88,15 @@ This is from author's [comment](https://github.com/BCV-Uniandes/AUNets/issues/12
 If the code throws cannot find python error change the commented file in `main.py`.
 ```
 
+# Docker environment for AUNets
+```
+Pull docker image from [here](https://hub.docker.com/r/bmaneesh/aunets/tags?page=1&ordering=last_updated) do `docker pull bmaneesh/aunets:cuda8_cudnn5_ubuntu16.04`.
+Do docker run, expose GPUs and share your harddisk via mount. GPUs are needed for OF generation of AUNets.
+Also increase the docker shared memory size using this [flag](https://github.com/pytorch/pytorch#using-pre-built-images).
+
+Clone this repo and download weights from the link below and you should be good to go.
+```
+
 # Does repeated runs on same data give different results?
 ```
 No, this has been validated using the Demo data author provided. Make sure that you are using `pretrained_model` flag to load the model and not `test_model` flag.
